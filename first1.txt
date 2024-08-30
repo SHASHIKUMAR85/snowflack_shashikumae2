@@ -1,0 +1,7 @@
+SELECT employeeid, name, salary, dept_id
+FROM employee
+WHERE (dept_id, salary) IN (
+    SELECT dept_id, MAX(salary)
+    FROM employee
+    GROUP BY dept_id
+);
