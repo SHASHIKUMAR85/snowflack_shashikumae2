@@ -1,0 +1,24 @@
+show databases ;
+
+create schema hdfc;
+
+create table bank.hdfc.employee (id int,
+                       first_name string ,
+                       last_name string ,
+                       email  string ,
+                       location string,
+                       department string
+                       )
+create schema axis;
+
+create table bank.axis.employee (id int,
+                       first_name string ,
+                       last_name string ,
+                       email  string ,
+                       location string,
+                       department string
+                       )
+
+desc table employee;
+
+select * from bank.hdfc.employee;
