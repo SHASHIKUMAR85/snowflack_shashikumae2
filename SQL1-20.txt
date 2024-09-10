@@ -1,0 +1,70 @@
+SELECT * FROM employees;
+
+SELECT * FROM department;
+
+SELECT employee_name, job 
+FROM employees;
+
+SELECT employee_name, salary 
+FROM employees;
+
+SELECT employee_no, salary 
+FROM employees;
+
+SELECT employee_name, salary * 12 AS annual_salary 
+FROM employees;
+
+
+SELECT employee_name 
+FROM employees 
+WHERE department_no = 10;
+
+SELECT employee_name 
+FROM employees 
+WHERE job = 'CLERK' AND salary > 3000;
+
+SELECT employee_no, employee_name 
+FROM employees 
+GROUP BY salary 
+HAVING COUNT(salary) > 1;
+
+SELECT employee_no, employee_name 
+FROM employees 
+GROUP BY salary 
+HAVING COUNT(salary) = 1;
+
+SELECT employee_name 
+FROM employee
+WHERE job IN ('CLERK', 'SALESMAN', 'ANALYST') AND salary > 3000;
+
+SELECT employee_name 
+FROM employees 
+WHERE hire_date <= ADD_MONTHS(SYSDATE, -60);
+
+SELECT employee_name
+FROM employees 
+WHERE hire_date < '1990-06-30' OR hire_date > '1990-12-31';
+
+SELECT SYSDATE 
+FROM dual;
+
+SELECT username 
+FROM all_users;
+
+SELECT table_name 
+FROM user_tables;
+
+SELECT user 
+FROM dual;
+
+SELECT employee_name 
+FROM employees 
+WHERE department_no IN (10, 20, 40) OR job IN ('CLERK', 'SALESMAN', 'ANALYST');
+
+SELECT employee_name 
+FROM employees
+WHERE employee_name LIKE 'S%';
+
+SELECT employee_name 
+FROM employees 
+WHERE employee_name LIKE '%S';
