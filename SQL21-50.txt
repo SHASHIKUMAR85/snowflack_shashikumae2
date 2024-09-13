@@ -1,0 +1,145 @@
+-- 21) Display the names of employees whose names have the second alphabet 'A'.
+SELECT ename 
+FROM emp 
+WHERE SUBSTR(ename, 2, 1) = 'A';
+
+-- 22) Select the names of the employee whose name is exactly five characters in length.
+SELECT ename 
+FROM emp 
+WHERE LENGTH(ename) = 5;
+
+-- 23) Display the names of employees who are not working as MANAGERS.
+SELECT ename 
+FROM emp 
+WHERE job != 'MANAGER';
+
+-- 24) Display the names of employees who are not working as SALESMAN, CLERK, or ANALYST.
+SELECT ename 
+FROM emp 
+WHERE job NOT IN ('SALESMAN', 'CLERK', 'ANALYST');
+
+-- 25) Display all rows from emp table. The system should wait after every screen full of information.
+SELECT * 
+FROM emp;
+
+-- Pagination depends on the environment, use SQL client specific options, e.g., in SQL*Plus:
+-- SET PAUSE ON
+
+-- 26) Display the total number of employees working in the company.
+SELECT COUNT(*) 
+FROM emp;
+
+-- 27) Display the total salary being paid to all employees.
+SELECT SUM(sal) 
+FROM emp;
+
+-- 28) Display the maximum salary from the emp table.
+SELECT MAX(sal) 
+FROM emp;
+
+-- 29) Display the minimum salary from the emp table.
+SELECT MIN(sal) 
+FROM emp;
+
+-- 30) Display the average salary from the emp table.
+SELECT AVG(sal) 
+FROM emp;
+
+-- 31) Display the maximum salary being paid to CLERK.
+SELECT MAX(sal) 
+FROM emp 
+WHERE job = 'CLERK';
+
+-- 32) Display the maximum salary being paid to department number 20.
+SELECT MAX(sal) 
+FROM emp 
+WHERE deptno = 20;
+
+-- 33) Display the minimum salary being paid to any SALESMAN.
+SELECT MIN(sal) 
+FROM emp 
+WHERE job = 'SALESMAN';
+
+-- 34) Display the average salary drawn by MANAGERS.
+SELECT AVG(sal) 
+FROM emp 
+WHERE job = 'MANAGER';
+
+-- 35) Display the total salary drawn by ANALYST working in department number 40.
+SELECT SUM(sal) 
+FROM emp 
+WHERE job = 'ANALYST' AND deptno = 40;
+
+-- 36) Display the names of the employees in order of salary (lowest salary first).
+SELECT ename 
+FROM emp 
+ORDER BY sal ASC;
+
+-- 37) Display the names of the employees in descending order of salary.
+SELECT ename 
+FROM emp 
+ORDER BY sal DESC;
+
+-- 38) Display the names of the employees in order of employee name.
+SELECT ename 
+FROM emp 
+ORDER BY ename;
+
+-- 39) Display empno, ename, deptno, sal sorted first by name, within name by deptno, and within deptno by salary.
+SELECT empno, ename, deptno, sal 
+FROM emp 
+ORDER BY ename, deptno, sal;
+
+-- 40) Display the name of the employee along with their annual salary (sal*12), with the highest annual salary appearing first.
+SELECT ename, sal*12 AS annual_salary 
+FROM emp 
+ORDER BY annual_salary DESC;
+
+-- 41) Display name, salary, hra, pf, da, total salary for each employee (hra 15%, da 10%, pf 5%).
+SELECT ename, sal, sal*0.15 AS hra, sal*0.1 AS da, sal*0.05 AS pf, 
+       (sal + sal*0.15 + sal*0.1 - sal*0.05) AS total_salary 
+FROM emp 
+ORDER BY total_salary;
+
+-- 42) Display department numbers and the total number of employees working in each department.
+SELECT deptno, COUNT(*) AS num_employees 
+FROM emp 
+GROUP BY deptno;
+
+-- 43) Display the various jobs and the total number of employees within each job group.
+SELECT job, COUNT(*) AS num_employees 
+FROM emp 
+GROUP BY job;
+
+-- 44) Display the department numbers and total salary for each department.
+SELECT deptno, SUM(sal) AS total_salary 
+FROM emp 
+GROUP BY deptno;
+
+-- 45) Display the department numbers and maximum salary for each department.
+SELECT deptno, MAX(sal) AS max_salary 
+FROM emp 
+GROUP BY deptno;
+
+-- 46) Display the various jobs and total salary for each job.
+SELECT job, SUM(sal) AS total_salary 
+FROM emp 
+GROUP BY job;
+
+-- 48) Display the department numbers with more than three employees in each department.
+SELECT deptno, COUNT(*) AS num_employees 
+FROM emp 
+GROUP BY deptno 
+HAVING COUNT(*) > 3;
+
+-- 49) Display the various jobs along with total salary for each of the jobs where total salary is greater than 40000.
+SELECT job, SUM(sal) AS total_salary 
+FROM emp 
+GROUP BY job 
+HAVING SUM(sal) > 40000;
+
+-- 50) Display the various jobs along with total number of employees in each job, showing only those jobs with more than three employees.
+SELECT job, COUNT(*) AS num_employees 
+FROM emp 
+GROUP BY job 
+HAVING COUNT(*) > 3;
