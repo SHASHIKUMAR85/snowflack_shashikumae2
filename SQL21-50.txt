@@ -22,9 +22,6 @@ WHERE job NOT IN ('SALESMAN', 'CLERK', 'ANALYST');
 SELECT * 
 FROM emp;
 
--- Pagination depends on the environment, use SQL client specific options, e.g., in SQL*Plus:
--- SET PAUSE ON
-
 -- 26) Display the total number of employees working in the company.
 SELECT COUNT(*) 
 FROM emp;
