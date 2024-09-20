@@ -1,0 +1,62 @@
+create or replace storage integration s3_int
+  TYPE = EXTERNAL_STAGE
+  STORAGE_PROVIDER = S3
+  ENABLED = TRUE 
+  STORAGE_AWS_ROLE_ARN ='arn:aws:iam::664418951474:role/shashikumar-vitech-s3-access'
+  STORAGE_ALLOWED_LOCATIONS = ('s3://shashikumar-vitech-test/csv/netflix_titles.csv', 's3://shashikumar-vitech-test/json/Musical_Instruments_5.json','s3://shashikumar-vitech-test/snowpipe/')
+   COMMENT = 'This is for S3 integration' 
+    
+   DESC integration s3_int;
+
+
+   // Create stage object with integration object & file format object
+CREATE OR REPLACE stage MANAGE_DB.external_stages.employee_stg
+    URL = 's3://shashikumar-vitech-test/snowpipe/'
+    STORAGE_INTEGRATION = s3_int
+    FILE_FORMAT = MANAGE_DB.file_formats.csv_fileformat
+
+list @MANAGE_DB.external_stages.employee_stg ;
+
+
+// Create table first
+CREATE OR REPLACE TABLE OUR_FIRST_DB.PUBLIC.employees (
+  id INT,
+  first_name STRING,
+  last_name STRING,
+  email STRING,
+  location STRING,
+  department STRING
+  )
+
+CREATE SCHEMA MANAGE_DB.pipes;
+
+// Define pipe
+CREATE OR REPLACE pipe MANAGE_DB.pipes.employee_pipe
+auto_ingest = TRUE
+AS
+COPY INTO OUR_FIRST_DB.PUBLIC.employees
+FROM @MANAGE_DB.external_stages.employee_stg
+
+// Describe pipe
+DESC pipe employee_pipe
+
+SELECT * FROM OUR_FIRST_DB.PUBLIC.employees  
+ 
+
+ALTER pipe employee_pipe refresh;
+
+
+
+
+--------------------------
+
+
+// Pause pipe
+ALTER PIPE MANAGE_DB.pipes.employee_pipe SET PIPE_EXECUTION_PAUSED = true
+
+
+ // Pause pipe
+ALTER PIPE MANAGE_DB.pipes.employee_pipe SET PIPE_EXECUTION_PAUSED = false
+ 
+// Verify pipe is paused and has pendingFileCount 0 
+SELECT SYSTEM$PIPE_STATUS('MANAGE_DB.pipes.employee_pipe') 

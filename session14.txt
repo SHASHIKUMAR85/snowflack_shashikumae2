@@ -1,0 +1,67 @@
+CREATE OR REPLACE stage MANAGE_DB.EXTERNAL_STAGES.JSONSTAGE
+     url='s3://bucketsnowflake-jsondemo';
+
+
+     list @MANAGE_DB.EXTERNAL_STAGES.JSONSTAGE;
+
+create schema FILE_FORMATS;
+
+CREATE OR REPLACE file format MANAGE_DB.FILE_FORMATS.JSONFORMAT
+    TYPE = JSON;
+    
+    
+CREATE OR REPLACE table OUR_FIRST_DB.PUBLIC.JSON_RAW (
+    raw_file variant);
+    
+COPY INTO OUR_FIRST_DB.PUBLIC.JSON_RAW
+    FROM @MANAGE_DB.EXTERNAL_STAGES.JSONSTAGE
+    file_format= MANAGE_DB.FILE_FORMATS.JSONFORMAT
+    files = ('HR_data.json');
+    
+   
+SELECT * FROM OUR_FIRST_DB.PUBLIC.JSON_RAW;
+
+SELECT $1: city 
+FROM OUR_FIRST_DB.PUBLIC.JSON_RAW;
+
+SELECT raw_file: city 
+FROM OUR_FIRST_DB.PUBLIC.JSON_RAW;
+
+
+
+
+SELECT $1:city ,
+       $1:first_name,
+       $1:gender
+FROM OUR_FIRST_DB.PUBLIC.JSON_RAW;
+
+
+
+
+SELECT raw_file:city :: String as city,
+       raw_file:first_name :: String as first_name,
+      raw_file:gender :: String as gender,
+      raw_file:job.salary :: int as salary,
+      raw_file:job.title :: string as title,
+      raw_file:spoken_languages[0].language	
+FROM OUR_FIRST_DB.PUBLIC.JSON_RAW;
+
+
+
+
+
+
+create or replace table hr_data as (
+
+SELECT raw_file:city :: String as city,
+       raw_file:first_name :: String as first_name,
+      raw_file:gender :: String as gender,
+      raw_file:job.salary :: int as salary,
+      raw_file:job.title :: string as title
+FROM OUR_FIRST_DB.PUBLIC.JSON_RAW
+
+)
+
+
+
+select * from hr_data;
