@@ -1,0 +1,16 @@
+Snowflake Realtime Training
+                                        Session-17
+                                 -----------------------
+                                    Snow Pipe
+
+https://youtu.be/LL0c6CxrxhA
+
+  1) Create Aws free trail account (Username & Pwd)
+  2) Create a S3 bucket
+  3) Load the files into bucket
+  4) Create IAM roles for S3 full access  
+  5) Create S3 integration object in snowflake
+  6) Describe S3 integration and copy user arn and Externasl id (  edit trust polycies )
+  7) Create Stage and List the stage
+  8) Load the data by using snowpipe with COPY command
+  9) Create a table before load the data

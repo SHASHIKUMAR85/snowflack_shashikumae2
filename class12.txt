@@ -1,0 +1,85 @@
+AWS 
+   Azure 
+   GCP 
+https://youtu.be/7FvjufFoEBo
+      
+	  
+	AWS   ---> Stage --->  Load data --< snowflake>  
+	
+	    By using COpy command 
+		
+		
+	AWS -->      url='s3://bucketsnowflakes3'   
+
+
+   Snowflake --> Order tables 	
+   
+   https://github.com/VITechTalks/Sql-Practice
+   
+   TASK:  Git hub --> urls 
+   
+   1) Load loan payment data using external stages --> Today 
+   2) Up to today (ETL/ELT   Internal stages and Externals stages ) --> tomorrow 
+   3) SQL questions 1-20  you need to answer   (Tues day)
+   
+     Prepare SQLs and load the data into Github and share the urls 
+	  
+	 1) Display the details of all employees 
+     
+	 Ans:  Select * from employees ;
+
+	 2) Display the depart information from department table 
+	 
+     Ans: select * from department
+	 
+	 3) Display the name and job for all the employees 
+	 
+	 Ans:  Select  name , job  from employees  
+
+	 CLASS: 
+	 
+	 
+	 TASK: 
+	 
+
+    Next class : Wed	(11-Aug) 
+   
+   
+   
+   
+   
+   
+   
+  notes:
+----------------
+
+// Database to manage stage objects, fileformats etc.
+
+CREATE OR REPLACE DATABASE MANAGE_DB;
+
+CREATE OR REPLACE SCHEMA external_stages;
+
+
+// Creating external stage
+
+CREATE OR REPLACE STAGE MANAGE_DB.external_stages.aws_stage
+    url='s3://bucketsnowflakes3'
+   
+
+
+// Description of external stage
+
+DESC STAGE MANAGE_DB.external_stages.aws_stage; 
+
+// List files in stage
+
+ list @MANAGE_DB.external_stages.aws_stage;
+
+
+
+//Load data using copy command
+
+COPY INTO OUR_FIRST_DB.PUBLIC.ORDERS
+    FROM @aws_stage
+    file_format= (type = csv field_delimiter=',' skip_header=1)
+    pattern='.*Order.*'
